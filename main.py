@@ -5,7 +5,7 @@ from flask import Flask, send_file, Response
 from bs4 import BeautifulSoup
 
 app = Flask(__name__)
-
+latinizer_url = 'https://hidden-journey-62459.herokuapp.com/piglatinize/'
 
 def get_fact():
 
@@ -19,7 +19,13 @@ def get_fact():
 
 @app.route('/')
 def home():
-    return "FILL ME!"
+    print("DEBUG: Running get_fact()")
+    post_data = get_fact()
+
+    session = requests.Session()
+    params = {'input_text': post_data.encode('utf-8')}
+    response = session.post(latinizer_url, data=params)
+    return response.content
 
 
 if __name__ == "__main__":
